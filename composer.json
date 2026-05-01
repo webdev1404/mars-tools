@@ -1,0 +1,24 @@
+{
+    "name": "webdev1404/mars-tools",
+    "type": "mars-framework-tools",
+    "description": "Mars Framework Tools",
+    "require": {
+        "webdev1404/mars-framework": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Razvan Chis",
+            "email": "sargon1404@gmail.com"
+        },
+        {
+            "name": "Adrian Razvan Chis",
+            "email": "sargon1404@webdev1404.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mars\\Bin\\": "bin/"
+        }
+    }
+}
