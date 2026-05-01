@@ -18,7 +18,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Mars\\Bin\\": "bin/"
+            "Mars\\Bin\\": "bin/",
+            "Mars\\Setup\\": "setup/"
         }
     }
 }
