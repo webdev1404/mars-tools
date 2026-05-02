@@ -11,17 +11,17 @@ class Cache extends Base
     public protected(set) array $roots = ['cache'];
 
     public protected(set) array $commands = [
-        'clean'           => 'cleanAll',
-        'clean:all'       => 'cleanAll',
-        'clean:config'    => 'cleanConfig',
-        'clean:css'       => 'cleanCss',
-        'clean:js'        => 'cleanJs',
-        'clean:data'      => 'cleanData',
-        'clean:pages'     => 'cleanPages',
-        'clean:routes'    => 'cleanRoutes',
-        'clean:storage'   => 'cleanStorage',
-        'clean:storage:all'   => 'cleanStorageAll',
-        'clean:templates' => 'cleanTemplates',
+        'cache:clean'           => 'cleanAll',
+        'cache:clean:all'       => 'cleanAll',
+        'cache:clean:config'    => 'cleanConfig',
+        'cache:clean:css'       => 'cleanCss',
+        'cache:clean:js'        => 'cleanJs',
+        'cache:clean:data'      => 'cleanData',
+        'cache:clean:pages'     => 'cleanPages',
+        'cache:clean:routes'    => 'cleanRoutes',
+        'cache:clean:storage'   => 'cleanStorage',
+        'cache:clean:storage:all'   => 'cleanStorageAll',
+        'cache:clean:templates' => 'cleanTemplates',
     ];
     
     public protected(set) array $command_descriptions = [

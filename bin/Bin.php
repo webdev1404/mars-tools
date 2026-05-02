@@ -129,10 +129,23 @@ class Bin
     }
 
     /**
+     * Runs the command
+     */
+    public function run()
+    {
+        if (!$this->exists()) {
+            throw new \Exception("Action {$this->action} not found");
+        }
+
+        $obj = $this->get();
+        $obj->execute($this->command);
+    }
+
+    /**
      * Returns the action object for the current action
      * @return BinInterface The action object
      */
-    public function get() : BinInterface
+    protected function get() : BinInterface
     {
         return $this->handlers[$this->root];
     }
@@ -141,7 +154,7 @@ class Bin
      * Checks if the current action exists
      * @return bool True if the action exists, false otherwise
      */
-    public function exists() : bool
+    protected function exists() : bool
     {
         return isset($this->handlers[$this->root]);
     }
