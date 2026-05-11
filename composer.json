@@ -19,7 +19,8 @@
     "autoload": {
         "psr-4": {
             "Mars\\Bin\\": "bin/",
-            "Mars\\Setup\\": "setup/"
+            "Mars\\Setup\\": "setup/",
+            "Mars\\Upgrade\\": "upgrade/"
         }
     }
 }

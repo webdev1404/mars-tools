@@ -1,13 +1,26 @@
 <?php
 
-//load the traits & interfaces
-$files = require(__DIR__ . '/generated/traits-interfaces.php');
-foreach ($files as $file) {
-    opcache_compile_file($file);
+$base_dir = dirname(__DIR__, 2) . '/mars-framework/src/';
+
+//a SIGSEGV - core dumped is triggered, for some reason, if the App/Kernel.php file is preloaded, so we exclude it from the preload list.
+$exclude_files = [
+    'App/Kernel.php',
+];
+
+$files = [];
+$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir));
+
+foreach ($iterator as $file) {
+    if ($file->isFile() && $file->getExtension() == 'php') {
+        $rel_path = str_replace($base_dir, '', $file->getPathname());
+        if (in_array($rel_path, $exclude_files)) {
+            continue;
+        }
+
+        $files[] = $file->getPathname();
+    }
 }
 
-//load the classes
-$files = require(__DIR__ . '/generated/classes.php');
 foreach ($files as $file) {
     opcache_compile_file($file);
 }

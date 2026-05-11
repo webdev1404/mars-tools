@@ -7,8 +7,8 @@
 namespace Mars\Setup\Steps;
 
 /**
-* @package Mars
-*/
+ * @package Mars
+ */
 class Config extends Base
 {
     /**
@@ -32,8 +32,8 @@ class Config extends Base
     protected function getProcessArray(): array
     {
         return [
-            'url.base' => fn($value) => rtrim($value, '/'),
-            'site.emails' => fn($value) => array_map('trim', explode(',', $value))
+            'url.base' => fn ($value) => rtrim($value, '/'),
+            'site.emails' => fn ($value) => array_map('trim', explode(',', $value))
         ];
     }
 
@@ -92,12 +92,12 @@ class Config extends Base
      * Write the config data to the config file
      * @param array $data The config data
      */
-    protected function write(array $data) 
+    protected function write(array $data)
     {
         $contents = file_get_contents($this->filename);
 
         foreach ($data as [$key, $preg, $value]) {
-            $contents = preg_replace_callback($preg, function($matches) use ($key, $value) {
+            $contents = preg_replace_callback($preg, function ($matches) use ($key, $value) {
                 $start = '';
                 $end = '';
                 if (is_array($value)) {
@@ -139,7 +139,9 @@ class Config extends Base
     {
         if (is_array($value)) {
             $values = array_map([$this, 'addSlashes'], $value);
-            $values = array_map(function($value) { return "'{$value}'"; }, $values);
+            $values = array_map(function ($value) {
+                return "'{$value}'";
+            }, $values);
 
             return implode(', ', $values);
 

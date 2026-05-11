@@ -43,9 +43,9 @@ class Setup
     protected function welcome()
     {
         $this->app->cli->printLn();
-        $this->app->cli->print('*********************************', 'important');
-        $this->app->cli->print('Welcome to the Mars setup script!', 'important');
-        $this->app->cli->print('*********************************', 'important');
+        $this->app->cli->important('*********************************');
+        $this->app->cli->important('Welcome to the Mars setup script!');
+        $this->app->cli->important('*********************************');
         $this->app->cli->printLn();
 
         $this->app->cli->notice('This script will guide you through the initial setup of your Mars application.');

@@ -7,8 +7,8 @@
 namespace Mars\Setup\Steps;
 
 /**
-* @package Mars
-*/
+ * @package Mars
+ */
 class Symlinks extends Base
 {
     /**
