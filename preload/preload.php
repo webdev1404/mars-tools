@@ -1,6 +1,6 @@
 <?php
 
-$base_dir = dirname(__DIR__, 2) . '/mars-framework/src/';
+$base_path = dirname(__DIR__, 2) . '/mars-framework/src/';
 
 //a SIGSEGV - core dumped is triggered, for some reason, if the App/Kernel.php file is preloaded, so we exclude it from the preload list.
 $exclude_files = [
@@ -8,11 +8,11 @@ $exclude_files = [
 ];
 
 $files = [];
-$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_dir));
+$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base_path));
 
 foreach ($iterator as $file) {
     if ($file->isFile() && $file->getExtension() == 'php') {
-        $rel_path = str_replace($base_dir, '', $file->getPathname());
+        $rel_path = str_replace($base_path, '', $file->getPathname());
         if (in_array($rel_path, $exclude_files)) {
             continue;
         }

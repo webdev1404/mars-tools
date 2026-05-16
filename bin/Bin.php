@@ -97,9 +97,9 @@ class Bin
             $this->handlers = $this->getHandlers(__DIR__ . '/Handlers', '\\Mars\\Bin\\Handlers');
 
             //Load the files from the app's bin directory, if it exists
-            $app_bin_dir = $this->app->app_path . '/bin';
-            if (is_dir($app_bin_dir)) {
-                $app_handlers = $this->getHandlers($app_bin_dir, '\\App\\Bin');
+            $app_bin_path = $this->app->app_path . '/bin';
+            if (is_dir($app_bin_path)) {
+                $app_handlers = $this->getHandlers($app_bin_path, '\\App\\Bin');
 
                 if ($app_handlers) {
                     $this->handlers = [...$this->handlers, ...$app_handlers];
@@ -160,18 +160,18 @@ class Bin
     }
 
     /**
-     * Loads the classes from the given directory and returns the handlers they provide
-     * @param string $dir The directory to load the classes from
+     * Loads the classes from the given path and returns the handlers they provide
+     * @param string $path The path to load the classes from
      * @param string $base_namespace The base namespace of the classes
      * @return array The handlers found in the directory
      */
-    protected function getHandlers(string $dir, string $base_namespace) : array
+    protected function getHandlers(string $path, string $base_namespace) : array
     {
         $handlers = [];
         
-        $classes = $this->app->dir->getFilesSorted($dir, true, true, [], ['php']);
+        $classes = $this->app->dir->getFilesSorted($path, true, true, [], ['php']);
         foreach ($classes as $filename) {
-            $name = str_ireplace([$dir, '.php'], '', $filename);
+            $name = str_ireplace([$path, '.php'], '', $filename);
             $name = str_replace('/', '\\', $name);
     
             $namespace = $base_namespace . $name;

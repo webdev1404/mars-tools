@@ -17,11 +17,14 @@ class Cache extends Base
         'cache:clean:css'       => 'cleanCss',
         'cache:clean:js'        => 'cleanJs',
         'cache:clean:data'      => 'cleanData',
+        'cache:clean:languages' => 'cleanLanguages',
+        'cache:clean:modules'   => 'cleanModules',
         'cache:clean:pages'     => 'cleanPages',
         'cache:clean:routes'    => 'cleanRoutes',
         'cache:clean:storage'   => 'cleanStorage',
         'cache:clean:storage:all'   => 'cleanStorageAll',
         'cache:clean:templates' => 'cleanTemplates',
+        'cache:clean:themes'    => 'cleanThemes',
     ];
     
     public protected(set) array $command_descriptions = [
@@ -31,11 +34,14 @@ class Cache extends Base
         'cache:clean:css'       => 'Cleans the CSS cache',
         'cache:clean:js'        => 'Cleans the JavaScript cache',
         'cache:clean:data'      => 'Cleans the data cache',
+        'cache:clean:languages' => 'Cleans the languages cache',
+        'cache:clean:modules'   => 'Cleans the modules cache',
         'cache:clean:pages'     => 'Cleans the page cache',
         'cache:clean:routes'    => 'Cleans the route cache',
         'cache:clean:storage'   => 'Cleans the expired storage cache',
         'cache:clean:storage:all'   => 'Cleans all storage caches, expired or not',
         'cache:clean:templates' => 'Cleans the template cache',
+        'cache:clean:themes'    => 'Cleans the themes cache',
     ];
 
     /**
@@ -54,10 +60,13 @@ class Cache extends Base
         $this->cleanCss();
         $this->cleanJs();
         $this->cleanData();
+        $this->cleanLanguages();
+        $this->cleanModules();
         $this->cleanPages();
         $this->cleanRoutes();
-        $this->cleanTemplates();
         $this->cleanStorage();
+        $this->cleanTemplates();
+        $this->cleanThemes();
         $this->done();
     }
 
@@ -100,6 +109,24 @@ class Cache extends Base
     }
 
     /**
+     * Cleans the Modules cache
+     */
+    public function cleanModules()
+    {
+        $this->doing('Cleaning the Modules cache...');
+        $this->app->cache->modules->clean();
+    }
+
+    /**
+     * Cleans the Languages cache
+     */
+    public function cleanLanguages()
+    {
+        $this->doing('Cleaning the Languages cache...');
+        $this->app->cache->languages->clean();
+    }
+
+    /**
      * Cleans the Pages cache
      */
     public function cleanPages()
@@ -139,5 +166,14 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Templates cache...');
         $this->app->cache->templates->clean();
+    }
+
+    /**
+     * Cleans the Themes cache
+     */
+    public function cleanThemes()
+    {
+        $this->doing('Cleaning the Themes cache...');
+        $this->app->cache->themes->clean();
     }
 }
