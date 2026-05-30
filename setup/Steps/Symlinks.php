@@ -17,8 +17,7 @@ class Symlinks extends Base
     protected array $symlinks = [
         'vendor/webdev1404/mars-framework/assets' => 'public/assets/framework',
         'app/assets' => 'public/assets/app',
-        'data/cache/css' => 'public/assets/cache/css',
-        'data/cache/js' => 'public/assets/cache/js'
+        'data/cache/assets' => 'public/assets/cache/assets',
     ];
 
     /**
