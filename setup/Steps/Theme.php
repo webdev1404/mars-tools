@@ -16,7 +16,7 @@ class Theme extends Base
      */
     public function run()
     {
-        $themes = new \Mars\Extensions\Themes\Themes($this->app);
+        $themes = new \Mars\Extensions\Themes($this->app);
         $themes->install($this->app->config->theme->name);
 
         $this->app->cli->success('Theme installed successfully');

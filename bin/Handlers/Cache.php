@@ -8,40 +8,42 @@ class Cache extends Base
 {
     public protected(set) string $title = 'Clean Cache';
 
-    public protected(set) array $roots = ['cache'];
+    public protected(set) string $root = 'cache';
 
     public protected(set) array $commands = [
-        'cache:clean'           => 'cleanAll',
-        'cache:clean:all'       => 'cleanAll',
-        'cache:clean:config'    => 'cleanConfig',
-        'cache:clean:css'       => 'cleanCss',
-        'cache:clean:js'        => 'cleanJs',
-        'cache:clean:data'      => 'cleanData',
-        'cache:clean:languages' => 'cleanLanguages',
-        'cache:clean:modules'   => 'cleanModules',
-        'cache:clean:pages'     => 'cleanPages',
-        'cache:clean:routes'    => 'cleanRoutes',
-        'cache:clean:storage'   => 'cleanStorage',
-        'cache:clean:storage:all'   => 'cleanStorageAll',
-        'cache:clean:templates' => 'cleanTemplates',
-        'cache:clean:themes'    => 'cleanThemes',
+        'clean'           => 'cleanAll',
+        'clean:all'       => 'cleanAll',
+        'clean:config'    => 'cleanConfig',
+        'clean:css'       => 'cleanCss',
+        'clean:js'        => 'cleanJs',
+        'clean:data'      => 'cleanData',
+        'clean:languages' => 'cleanLanguages',
+        'clean:modules'   => 'cleanModules',
+        'clean:pages'     => 'cleanPages',
+        'clean:plugins'   => 'cleanPlugins',
+        'clean:routes'    => 'cleanRoutes',
+        'clean:storage'   => 'cleanStorage',
+        'clean:storage:all'   => 'cleanStorageAll',
+        'clean:templates' => 'cleanTemplates',
+        'clean:themes'    => 'cleanThemes',
     ];
     
     public protected(set) array $command_descriptions = [
-        'cache:clean'           => 'Cleans all caches',
-        'cache:clean:all'       => 'Cleans all caches',
-        'cache:clean:config'    => 'Cleans the config cache',
-        'cache:clean:css'       => 'Cleans the CSS cache',
-        'cache:clean:js'        => 'Cleans the JavaScript cache',
-        'cache:clean:data'      => 'Cleans the data cache',
-        'cache:clean:languages' => 'Cleans the languages cache',
-        'cache:clean:modules'   => 'Cleans the modules cache',
-        'cache:clean:pages'     => 'Cleans the page cache',
-        'cache:clean:routes'    => 'Cleans the route cache',
-        'cache:clean:storage'   => 'Cleans the expired storage cache',
-        'cache:clean:storage:all'   => 'Cleans all storage caches, expired or not',
-        'cache:clean:templates' => 'Cleans the template cache',
-        'cache:clean:themes'    => 'Cleans the themes cache',
+        'clean'           => 'Cleans all caches',
+        'clean:all'       => 'Cleans all caches',
+        'clean:config'    => 'Cleans the config cache',
+        'clean:css'       => 'Cleans the CSS cache',
+        'clean:js'        => 'Cleans the JavaScript cache',
+        'clean:data'      => 'Cleans the data cache',
+        'clean:languages' => 'Cleans the languages cache',
+        'clean:modules'   => 'Cleans the modules cache',
+        'clean:pages'     => 'Cleans the page cache',
+        'clean:plugins'   => 'Cleans the plugins cache',
+        'clean:routes'    => 'Cleans the route cache',
+        'clean:storage'   => 'Cleans the expired storage cache',
+        'clean:storage:all'   => 'Cleans all storage caches, expired or not',
+        'clean:templates' => 'Cleans the template cache',
+        'clean:themes'    => 'Cleans the themes cache',
     ];
 
     /**
@@ -63,6 +65,7 @@ class Cache extends Base
         $this->cleanLanguages();
         $this->cleanModules();
         $this->cleanPages();
+        $this->cleanPlugins();
         $this->cleanRoutes();
         $this->cleanStorage();
         $this->cleanTemplates();
@@ -133,6 +136,15 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Pages cache...');
         $this->app->cache->pages->clean();
+    }
+
+    /**
+     * Cleans the Plugins cache
+     */
+    public function cleanPlugins()
+    {
+        $this->doing('Cleaning the Plugins cache...');
+        $this->app->cache->plugins->clean();
     }
 
     /**

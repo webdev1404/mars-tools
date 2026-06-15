@@ -2,9 +2,6 @@
     "name": "webdev1404/mars-tools",
     "type": "mars-framework-tools",
     "description": "Mars Framework Tools",
-    "require": {
-        "webdev1404/mars-framework": "dev-master"
-    },
     "license": "MIT",
     "authors": [
         {

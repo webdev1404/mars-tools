@@ -9,26 +9,26 @@ class Themes extends Extensions
 {
     public protected(set) string $title = 'Manage Themes';
 
-    public protected(set) array $roots = ['themes', 'theme'];
+    public protected(set) string $root = 'themes';
 
     public protected(set) array $commands = [
-        'themes:list'           => 'listAvailable',
-        'themes:install'        => 'install',
-        'themes:upgrade'        => 'upgrade',
-        'themes:uninstall'      => 'uninstall',
+        'list'           => 'listAvailable',
+        'install'        => 'install',
+        'upgrade'        => 'upgrade',
+        'uninstall'      => 'uninstall',
     ];
 
     public protected(set) array $command_descriptions = [
-        'themes:list'         => 'List all existing themes',
-        'theme:install'       => 'Installs a theme',
-        'theme:upgrade'       => 'Upgrades a theme',
-        'theme:uninstall'     => 'Uninstalls a theme'
+        'list'         => 'List all existing themes',
+        'install'       => 'Installs a theme',
+        'upgrade'       => 'Upgrades a theme',
+        'uninstall'     => 'Uninstalls a theme'
     ];
     
     public protected(set) array $command_help = [
-        'theme:install' => 'Usage: theme:install <theme_name> [<theme_name> ...]',
-        'theme:upgrade' => 'Usage: theme:upgrade <theme_name> [<theme_name> ...]',
-        'theme:uninstall'  => 'Usage: theme:uninstall <theme_name> [<theme_name> ...]'
+        'install' => 'Usage: install [--force] <theme_name> [<theme_name> ...]',
+        'upgrade' => 'Usage: upgrade [--force] <theme_name> [<theme_name> ...]',
+        'uninstall'  => 'Usage: uninstall [--force] <theme_name> [<theme_name> ...]'
     ];
 
     protected array $names = [
@@ -40,6 +40,12 @@ class Themes extends Extensions
 
     protected array $usage = [
         'extension' => 'theme',
+    ];
+
+    protected array $actions_list = [
+        'install' => 'available',
+        'upgrade' => 'available',
+        'uninstall' => 'available',
     ];
 
     protected BaseExtensions $manager {

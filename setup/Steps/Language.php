@@ -16,7 +16,7 @@ class Language extends Base
      */
     public function run()
     {
-        $languages = new \Mars\Extensions\Languages\Languages($this->app);
+        $languages = new \Mars\Extensions\Languages($this->app);
         $languages->install($this->app->config->language->name);
 
         $this->app->cli->success('Language installed successfully');

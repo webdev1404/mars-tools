@@ -20,7 +20,7 @@ class Config extends Base
      * The config keys and their prompts
      */
     protected array $options = [
-        'url.base' => 'Please enter the base URL',
+        'site.url.base' => 'Please enter the base URL',
         'site.name' => 'Please enter the site name',
         'site.emails' => ['Please enter the site email(s) (comma separated)', true]
     ];
@@ -32,7 +32,7 @@ class Config extends Base
     protected function getProcessArray(): array
     {
         return [
-            'url.base' => fn ($value) => rtrim($value, '/'),
+            'site.url.base' => fn ($value) => rtrim($value, '/'),
             'site.emails' => fn ($value) => array_map('trim', explode(',', $value))
         ];
     }
@@ -42,7 +42,7 @@ class Config extends Base
      */
     public function run()
     {
-        $this->filename = $this->app->base_path . '/config/config.php';
+        $this->filename = $this->app->base_path . '/config/site.php';
         $this->check();
 
         $data = [];

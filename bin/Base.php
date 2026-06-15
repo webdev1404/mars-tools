@@ -17,9 +17,9 @@ abstract class Base implements BinInterface
     use Kernel;
 
     /**
-     * @var array $roots The roots the class is responsible for
+     * @var string $root The root the class is responsible for
      */
-    public protected(set) array $roots = [];
+    public protected(set) string $root = '';
 
     /**
      * @var array $commands The commands the class can handle
@@ -48,19 +48,22 @@ abstract class Base implements BinInterface
 
     /**
      * Executes the command
+     * @param string $command The command to execute
      */
     public function execute(string $command)
     {
         $this->printLn();
 
-        $method = 'default';
+        $parts = explode(':', $command);
+        $action = implode(':', array_slice($parts, 1));
 
-        if ($command) {
-            if (!isset($this->commands[$command])) {
+        $method = 'default';
+        if ($action) {
+            if (!isset($this->commands[$action])) {
                 throw new \Exception("Command {$command} not found");
             }
 
-            $method = $this->commands[$command];
+            $method = $this->commands[$action];
         }
 
         if (!method_exists($this, $method)) {
@@ -77,7 +80,7 @@ abstract class Base implements BinInterface
     }
 
     /**
-     * Default action to execute if no command is given
+     * Default action
      */
     public function default()
     {

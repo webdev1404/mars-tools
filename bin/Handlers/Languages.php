@@ -9,30 +9,30 @@ class Languages extends Extensions
 {
     public protected(set) string $title = 'Manage Languages';
 
-    public protected(set) array $roots = ['languages', 'language'];
+    public protected(set) string $root = 'languages';
 
     public protected(set) array $commands = [
         'list'           => 'listEnabled',
         'list:all'       => 'listAll',
         'list:available' => 'listAvailable',
-        'install'        => 'install',
-        'upgrade'        => 'upgrade',
-        'uninstall'      => 'uninstall',
+        'install'         => 'install',
+        'upgrade'         => 'upgrade',
+        'uninstall'       => 'uninstall',
     ];
 
     public protected(set) array $command_descriptions = [
-        'languages:list'           => 'List all enabled languages',
-        'languages:list:all'       => 'List all languages',
-        'languages:list:available' => 'List all available languages',
-        'language:install'         => 'Installs a language',
-        'language:upgrade'         => 'Upgrades a language',
-        'language:uninstall'       => 'Uninstalls a language'
+        'list'           => 'List all enabled languages',
+        'list:all'       => 'List all languages',
+        'list:available' => 'List all available languages',
+        'install'         => 'Installs a language',
+        'upgrade'         => 'Upgrades a language',
+        'uninstall'       => 'Uninstalls a language'
     ];
 
     public protected(set) array $command_help = [
-        'language:install' => 'Usage: language:install <language_name> [<language_name> ...]',
-        'language:upgrade' => 'Usage: language:upgrade <language_name> [<language_name> ...]',
-        'language:uninstall'  => 'Usage: language:uninstall <language_name> [<language_name> ...]'
+        'install' => 'Usage: install [--force] <language_name> [<language_name> ...]',
+        'upgrade' => 'Usage: upgrade [--force] <language_name> [<language_name> ...]',
+        'uninstall'  => 'Usage: uninstall [--force] <language_name> [<language_name> ...]'
     ];
 
     protected array $names = [
@@ -44,6 +44,12 @@ class Languages extends Extensions
 
     protected array $usage = [
         'extension' => 'language',
+    ];
+
+    protected array $actions_list = [
+        'install' => 'all',
+        'upgrade' => 'all',
+        'uninstall' => 'all',
     ];
 
     protected BaseExtensions $manager {

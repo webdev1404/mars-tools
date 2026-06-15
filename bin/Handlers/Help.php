@@ -7,19 +7,14 @@ use Mars\Bin\BinInterface;
 
 class Help extends Base
 {
-    public protected(set) array $roots = ['help'];
+    public protected(set) string $root = 'help';
 
     /**
-     * Default action
+     * Executes the command
      */
-    public function default()
+    public function execute(string $command)
     {
-        $key = 1;
-        if ($this->app->cli->has('help')) {
-            $key = 0;
-        }
-
-        $command = $this->app->cli->params[$key] ?? null;
+        $this->printLn();
 
         if ($command) {
             $this->showActionHelp($command);
@@ -27,6 +22,8 @@ class Help extends Base
             $this->showVersion();
             $this->showAvailableCommands();
         }
+
+        $this->printLn();
     }
 
     /**
@@ -68,7 +65,7 @@ class Help extends Base
     {
         $data_array = [];
         foreach ($obj->command_descriptions ?? [] as $cmd => $desc) {
-            $data_array[] = [$cmd, $desc];
+            $data_array[] = [$obj->root . ':' . $cmd, $desc];
         }
 
         return $data_array;
@@ -90,9 +87,9 @@ class Help extends Base
 
         $obj = $this->app->bin->handlers[$root];
 
-        $text = $obj->command_help[$command] ?? ($obj->command_descriptions[$command] ?? null);
+        $text = $obj->command_help[$action] ?? ($obj->command_descriptions[$action] ?? null);
         if ($text === null) {
-            throw new \Exception("Command {$command} not foundx");
+            throw new \Exception("Command {$command} not found");
         }
 
         $this->printList([[$command, $text]]);
