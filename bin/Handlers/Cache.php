@@ -19,7 +19,7 @@ class Cache extends Base
         'clean:data'      => 'cleanData',
         'clean:languages' => 'cleanLanguages',
         'clean:modules'   => 'cleanModules',
-        'clean:pages'     => 'cleanPages',
+        'clean:html'     => 'cleanHtml',
         'clean:plugins'   => 'cleanPlugins',
         'clean:routes'    => 'cleanRoutes',
         'clean:storage'   => 'cleanStorage',
@@ -37,7 +37,7 @@ class Cache extends Base
         'clean:data'      => 'Cleans the data cache',
         'clean:languages' => 'Cleans the languages cache',
         'clean:modules'   => 'Cleans the modules cache',
-        'clean:pages'     => 'Cleans the page cache',
+        'clean:html'     => 'Cleans the html cache',
         'clean:plugins'   => 'Cleans the plugins cache',
         'clean:routes'    => 'Cleans the route cache',
         'clean:storage'   => 'Cleans the expired storage cache',
@@ -64,7 +64,7 @@ class Cache extends Base
         $this->cleanData();
         $this->cleanLanguages();
         $this->cleanModules();
-        $this->cleanPages();
+        $this->cleanHtml();
         $this->cleanPlugins();
         $this->cleanRoutes();
         $this->cleanStorage();
@@ -118,6 +118,7 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Modules cache...');
         $this->app->cache->modules->clean();
+        $this->app->cache->modules->cache();
     }
 
     /**
@@ -127,15 +128,16 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Languages cache...');
         $this->app->cache->languages->clean();
+        $this->app->cache->languages->cache();
     }
 
     /**
-     * Cleans the Pages cache
+     * Cleans the HTML cache
      */
-    public function cleanPages()
+    public function cleanHtml()
     {
-        $this->doing('Cleaning the Pages cache...');
-        $this->app->cache->pages->clean();
+        $this->doing('Cleaning the HTML cache...');
+        $this->app->cache->html->clean();
     }
 
     /**
@@ -145,6 +147,7 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Plugins cache...');
         $this->app->cache->plugins->clean();
+        $this->app->cache->plugins->cache();
     }
 
     /**
@@ -154,6 +157,8 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Routes cache...');
         $this->app->cache->routes->clean();
+
+        $this->app->cache->routes->cache();
     }
 
     /**
@@ -187,5 +192,6 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Themes cache...');
         $this->app->cache->themes->clean();
+        $this->app->cache->themes->cache();
     }
 }
