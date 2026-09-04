@@ -25,7 +25,7 @@ class Bin
                 return $this->command;
             }
 
-            $this->command = $this->app->cli->commands[0] ?? '';
+            $this->command = $this->app->cli->params[0] ?? '';
 
             return $this->command;
         }
@@ -141,13 +141,9 @@ class Bin
      */
     protected function addHandlers(array &$handlers, string $path, string $base_namespace)
     {
-        $classes = $this->app->dir->getFilesSorted($path, true, true, [], ['php']);
-        foreach ($classes as $filename) {
-            $name = str_ireplace([$path, '.php'], '', $filename);
-            $name = str_replace('/', '\\', $name);
-    
-            $namespace = $base_namespace . $name;
+        $classes = $this->app->getClasses($path, $base_namespace);
 
+        foreach ($classes as $namespace => $filename) {
             include($filename);
 
             $obj = new $namespace($this->app);

@@ -18,6 +18,7 @@ class Symlinks extends Base
         'vendor/webdev1404/mars-framework/assets' => 'public/assets/framework',
         'app/assets' => 'public/assets/app',
         'data/cache/assets' => 'public/assets/cache/assets',
+        'data/cache/sitemap' => 'public/assets/cache/sitemap',
     ];
 
     /**

@@ -125,7 +125,10 @@ abstract class Extensions extends Base
 
             $this->cleanCaches();
         } catch (Exception $e) {
-            throw new \Exception("Error installing {$this->names['extension_lower']} '{$e->getMessage()}'. It it already installed or does not exist. Use the --force option to force install it.");
+            throw new \Exception(match($e->type) {
+                'invalid' => "Error installing {$this->names['extension_lower']} '{$e->getMessage()}'. It is already installed. Use the --force option to run the install setup action anyhow.",
+                'not-found' => "Error installing {$this->names['extension_lower']} '{$e->getMessage()}'. It does not exist.",
+            });
         }
     }
 
@@ -146,7 +149,10 @@ abstract class Extensions extends Base
 
             $this->cleanCaches();
         } catch (Exception $e) {
-            throw new \Exception("Error enabling {$this->names['extension_lower']} '{$e->getMessage()}'. It it already enabled or does not exist. Use the --force option to force enable it.");
+            throw new \Exception(match($e->type) {
+                'invalid' => "Error enabling {$this->names['extension_lower']} '{$e->getMessage()}'. It is already enabled. Use the --force option to run the enable setup action anyhow.",
+                'not-found' => "Error enabling {$this->names['extension_lower']} '{$e->getMessage()}'. It does not exist.",
+            });
         }
     }
 
@@ -167,7 +173,10 @@ abstract class Extensions extends Base
 
             $this->cleanCaches();
         } catch (Exception $e) {
-            throw new \Exception("Error disabling {$this->names['extension_lower']} '{$e->getMessage()}'. It it already disabled or does not exist. Use the --force option to force disable it.");
+            throw new \Exception(match($e->type) {
+                'invalid' => "Error disabling {$this->names['extension_lower']} '{$e->getMessage()}'. It is already disabled. Use the --force option to run the disable setup action anyhow.",
+                'not-found' => "Error disabling {$this->names['extension_lower']} '{$e->getMessage()}'. It does not exist.",
+            });
         }
     }
 
@@ -188,7 +197,10 @@ abstract class Extensions extends Base
 
             $this->cleanCaches();
         } catch (Exception $e) {
-            throw new \Exception("Error upgrading {$this->names['extension_lower']} '{$e->getMessage()}'. It it not enabled or does not exist. Use the --force option to force upgrade it.");
+            throw new \Exception(match($e->type) {
+                'invalid' => "Error upgrading {$this->names['extension_lower']} '{$e->getMessage()}'. It is not enabled. Use the --force option to run the upgrade setup action anyhow.",
+                'not-found' => "Error upgrading {$this->names['extension_lower']} '{$e->getMessage()}'. It does not exist.",
+            });
         }
     }
 
@@ -216,7 +228,10 @@ abstract class Extensions extends Base
 
             $this->cleanCaches();
         } catch (Exception $e) {
-            throw new \Exception("Error uninstalling {$this->names['extension_lower']} '{$e->getMessage()}'. It it not enabled or does not exist. Use the --force option to force uninstall it.");
+            throw new \Exception(match($e->type) {
+                'invalid' => "Error uninstalling {$this->names['extension_lower']} '{$e->getMessage()}'. It is not enabled. Use the --force option to run the uninstall setup action anyhow.",
+                'not-found' => "Error uninstalling {$this->names['extension_lower']} '{$e->getMessage()}'. It does not exist.",
+            });
         }
     }
 
@@ -227,9 +242,9 @@ abstract class Extensions extends Base
      */
     protected function getExtensions(string $type): array
     {
-        $extensions_list =  array_slice($this->app->cli->commands, 1);
+        $extensions_list =  $this->app->cli->getParams();
         if (!$extensions_list) {
-            throw new \Exception("{$this->names['extension']} name not specified. " . $this->command_help['install']);
+            throw new \Exception("{$this->names['extension']} name not specified.");
         }
 
         if ($this->app->cli->has('force')) {
@@ -238,6 +253,7 @@ abstract class Extensions extends Base
 
         //check if the extensions exist
         $extensions = [];
+        $all = false;
 
         switch ($type) {
             case 'enabled':
@@ -248,12 +264,22 @@ abstract class Extensions extends Base
                 break;
             default:
                 $extensions = $this->manager->getAll(false);
+                $all = true;
                 break;
         }
 
         foreach ($extensions_list as $name) {
             if (!isset($extensions[$name])) {
-                throw new Exception($name, 'not-found');
+                $exception_type = 'invalid';
+
+                if (!$all) {
+                    $extensions_all = $this->manager->getAll(false);
+                    if (!isset($extensions_all[$name])) {
+                        $exception_type = 'not-found';
+                    }
+                }
+
+                throw new Exception($name, $exception_type);
             }
         }
 

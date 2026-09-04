@@ -46,6 +46,15 @@ class Cache extends Base
         'clean:themes'    => 'Cleans the themes cache',
     ];
 
+    public protected(set) array $command_help = [
+        'clean'   => 'Usage: clean [--no-rebuild]',
+        'clean:all'   => 'Usage: clean:all [--no-rebuild]',
+        'clean:modules'   => 'Usage: clean:modules [--no-rebuild]',
+        'clean:plugins'   => 'Usage: clean:plugins [--no-rebuild]',
+        'clean:routes'   => 'Usage: clean:routes [--no-rebuild]',
+        'clean:themes'   => 'Usage: clean:themes [--no-rebuild]',
+    ];
+
     /**
      * @internal
      */
@@ -118,7 +127,10 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Modules cache...');
         $this->app->cache->modules->clean();
-        $this->app->cache->modules->cache();
+
+        if (!$this->app->cli->has('no-rebuild')) {
+            $this->app->cache->modules->cache();
+        }
     }
 
     /**
@@ -128,7 +140,10 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Languages cache...');
         $this->app->cache->languages->clean();
-        $this->app->cache->languages->cache();
+
+        if (!$this->app->cli->has('no-rebuild')) {
+            $this->app->cache->languages->cache();
+        }
     }
 
     /**
@@ -147,7 +162,10 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Plugins cache...');
         $this->app->cache->plugins->clean();
-        $this->app->cache->plugins->cache();
+
+        if (!$this->app->cli->has('no-rebuild')) {
+            $this->app->cache->plugins->cache();
+        }
     }
 
     /**
@@ -158,7 +176,9 @@ class Cache extends Base
         $this->doing('Cleaning the Routes cache...');
         $this->app->cache->routes->clean();
 
-        $this->app->cache->routes->cache();
+        if (!$this->app->cli->has('no-rebuild')) {
+            $this->app->cache->routes->cache();
+        }
     }
 
     /**
@@ -192,6 +212,9 @@ class Cache extends Base
     {
         $this->doing('Cleaning the Themes cache...');
         $this->app->cache->themes->clean();
-        $this->app->cache->themes->cache();
+        
+        if (!$this->app->cli->has('no-rebuild')) {
+            $this->app->cache->themes->cache();
+        }
     }
 }

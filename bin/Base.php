@@ -7,6 +7,8 @@
 namespace Mars\Bin;
 
 use Mars\App\Kernel;
+use Mars\Alerts\Alerts;
+use Mars\Validation\ValidateTrait;
 
 /**
  * The Bin Base Class
@@ -15,6 +17,9 @@ use Mars\App\Kernel;
 abstract class Base implements BinInterface
 {
     use Kernel;
+    use ValidateTrait {
+        ValidateTrait::validate as validateData;
+    }
 
     /**
      * @var string $root The root the class is responsible for
@@ -87,6 +92,20 @@ abstract class Base implements BinInterface
     }
 
     /**
+     * Validates the data
+     * @param array|object $data The data to validate. If empty, the current CLI options are used.
+     * @return bool True if the validation passed all tests, false otherwise
+     */
+    public function validate(array|object $data = []) : bool
+    {
+        if (!$data) {
+            $data = $this->app->cli->options;
+        }
+
+        return $this->validateData($data);
+    }
+
+    /**
      * Prints the start message
      * @param string $message The message to print
      * @param string $color The color of the message
@@ -128,9 +147,18 @@ abstract class Base implements BinInterface
      * Prints an error message and exits
      * @see \Mars\Cli::error()
      */
-    public function error(string $message, bool $exit = true)
+    public function error(string $message, bool $die = true)
     {
-        $this->app->cli->error($message, $exit);
+        $this->app->cli->error($message, $die);
+    }
+
+    /**
+     * Prints the errors and exits
+     * @see \Mars\Cli::errors()
+     */
+    public function errors(array|Alerts $alerts, bool $die = true)
+    {
+        $this->app->cli->errors($alerts, $die);
     }
 
     /**
@@ -143,12 +171,30 @@ abstract class Base implements BinInterface
     }
 
     /**
+     * Prints the warnings
+     * @see \Mars\Cli::warnings()
+     */
+    public function warnings(array|Alerts $alerts)
+    {
+        $this->app->cli->warnings($alerts);
+    }
+
+    /**
      * Prints a notice message
      * @see \Mars\Cli::notice()
      */
     public function notice(string $message)
     {
         $this->app->cli->notice($message);
+    }
+
+    /**
+     * Prints the notices
+     * @see \Mars\Cli::notices()
+     */
+    public function notices(array|Alerts $alerts)
+    {
+        $this->app->cli->notices($alerts);
     }
 
     /**
@@ -170,6 +216,15 @@ abstract class Base implements BinInterface
     }
 
     /**
+     * Prints a table
+     * @see \Mars\Cli::printTable()
+     */
+    public function printTable(array $headers, array $data, array $colors = [], array $align = [], array $paddings_left = [], array $paddings_right = [])
+    {
+        $this->app->cli->printTable($headers, $data, $colors, $align, $paddings_left, $paddings_right);
+    }
+
+    /**
      * Asks a question and returns the answer
      * @see \Mars\Cli::ask()
      */
@@ -184,6 +239,6 @@ abstract class Base implements BinInterface
      */
     public function askImportant(string $question) : string
     {
-        return $this->app->cli->ask($question, 'important');
+        return strtolower($this->app->cli->ask($question, 'important'));
     }
 }
