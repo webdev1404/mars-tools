@@ -82,7 +82,7 @@ class Bin
 
                 //Load the files from the bin directories of the extensions
                 foreach ($manager->getEnabled() as $extension_name => $extension_path) {
-                    $bin_path = $extension_path . '/' . $instance::DIRS['bin'];
+                    $bin_path = $extension_path . '/' . $instance::DIRS['src'] . '/Bin';
                     if (!is_dir($bin_path)) {
                         continue;
                     }
@@ -143,12 +143,10 @@ class Bin
     {
         $classes = $this->app->getClasses($path, $base_namespace);
 
-        foreach ($classes as $namespace => $filename) {
-            include($filename);
-
-            $obj = new $namespace($this->app);
+        foreach ($classes as $class_name => $filename) {
+            $obj = new $class_name($this->app);
             if (!$obj instanceof BinInterface) {
-                throw new \Exception("Class {$namespace} does not implement BinInterface");
+                throw new \Exception("Class {$class_name} does not implement BinInterface");
             }
 
             $handlers[$obj->root] = $obj;

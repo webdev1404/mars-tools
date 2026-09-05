@@ -46,4 +46,3 @@ class Sitemap extends Base
         $this->done('Sitemap deleted successfully.');
     }
 }
-

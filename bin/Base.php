@@ -8,6 +8,7 @@ namespace Mars\Bin;
 
 use Mars\App\Kernel;
 use Mars\Alerts\Alerts;
+use Mars\Alerts\Errors;
 use Mars\Validation\ValidateTrait;
 
 /**
@@ -50,6 +51,21 @@ abstract class Base implements BinInterface
      * @var bool $show_done Whether to show the done message after executing a command
      */
     protected bool $show_done = false;
+
+    /**
+     * @var Errors $errors The generated errors, if any
+     */
+    public protected(set) Errors $errors {
+        get {
+            if (isset($this->errors)) {
+                return $this->errors;
+            }
+
+            $this->errors = new Errors($this->app);
+
+            return $this->errors;
+        }
+    }
 
     /**
      * Executes the command
